@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+[코딩애플 온라인 React 강좌](https://codingapple.com/)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 쇼핑몰 프로젝트
 
-## Available Scripts
+## 이미지 넣는 법
 
-In the project directory, you can run:
+### CSS 안에서 
 
-### `npm start`
+CSS파일에서 src 폴더 안에 있는 사진을 사용하고 싶다면 ./이미지경로
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```css
+.image-bg {
+  height: 300px;
+  background-image : url('./bg.png');
+}
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Html 안에서
 
-### `npm test`
+Html 안에서 src 폴더의 이미지를 넣으려면 이미지를 import 한 뒤 사용
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```js
+import bg from './bg.png'
 
-### `npm run build`
+function App(){
+  return (
+    <div>
+      <div className="main-bg" style={{ backgroundImage : 'url(' + bg + ')' }}></div>
+    </div>
+  )
+}
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. import 작명 from './이미지경로' 
+2. 이미지경로가 필요한 곳에서 작명한걸 사용하면 됨  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+< img > 태그로 쓴다면 < img src={bg}/ > 이렇게 써도 보임  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## public 폴더
+여러가지 소스코드는 src 폴더에 보관  
+이미지 같은 static 파일의 경우 public 폴더에 보관해도 됨  
 
-### `npm run eject`
+리액트로 개발을 끝내면 build 작업을 하는데 지금까지 짰던 코드를 한 파일로 압축해주는 작업  
+src 폴더에 있던 코드와 파일은 다 압축이 되는데 public 폴더에 있는 것들은 그대로 보존해줌  
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+그래서 형태를 보존하고 싶은 파일은 public 폴더에 넣으면 되는데 js 파일은 보존할 일이 거의 없고  
+이미지, txt, json 등 수정이 필요없는 static 파일들의 경우엔 public 폴더에 보관해도 상관없음
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### public 폴더에 있는 이미지 사용
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```js
+<img src="/logo.png" />
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+/이미지경로 사용하면 됨  
+import를 안해도 되어 편리. css 파일에서도 /이미지경로 사용하면 됨
 
-## Learn More
+```js
+<img src={process.env.PUBLIC_URL + '/logo.png'} />
+```
+권장되는 방식  
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+하위 경로로 배포할 경우 파일을 찾을 수 없다고 나올 수 있기에  
+하위 경로를 뜻하는 process.env.PUBLIC_URL을 더해주는 것  
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+하위 경로에 리액트로 만든 페이지를 배포할 일이 없다면 안해주어도 됨
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
