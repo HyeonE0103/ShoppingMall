@@ -180,3 +180,62 @@ Route는 페이지라고 생각하면 됨(페이지가 4개 필요하면 Route�
 ```
 react-router-dom에서 Link 컴포넌트 import 해오고 원하는 곳에서 < Link > 쓰면 됨  
 각각 url 경로로 이동하는 링크를 생성할 수 있음
+
+### useNavigate()
+페이지 이동은 Link를 써도 되지만 useNavigate()를 써도 됨
+
+```js
+function App(){
+  let navigate = useNavigate()
+  return (
+    <button onClick={()=>{ navigate('/detail') }}>이동버튼</button>
+  )
+}
+```
+
+useNavigate() 쓰면 그 자리에 페이지 이동시켜주는 함수가 남음  
+
+숫자넣으면 앞으로가기, 뒤로가기 기능개발도 가능함  
+-1 넣으면 뒤로 1번 가기, 2 넣으면 앞으로 2번 가기 기능
+
+### 404페이지
+HTTP 응답 상태 코드는 특정 HTTP 요청이 성공적으로 완료되었는지 여부를 나타냄  
+그 중 없는 페이지일 때 나타내는 번호가 바로 404  
+
+사용자가 이상한 경로로 접속했을 때 "없는 페이지임" 알려주는 페이지를 보여주고 싶다면
+
+```js
+<Route path="*" element={ <div>없는페이지</div> } />
+```
+
+< Route path= " * " > 를 맨 밑에 만들어두면 됨  
+'*' 경로는 모든 경로를 뜻해서 이상한 페이지 접속시 * 경로로 안내해줌 
+
+### 서브경로 만들 수 있는 nested routes
+
+```js
+<Route path="/about" element={ <About/> } >  
+  <Route path="member" element={ <div>멤버</div> } />
+  <Route path="location" element={ <div>회사위치</div> } />
+</Route>
+```
+< Route >안에 < Route >를 넣을 수 있는데 이걸 Nested routes 라고 부름  
+
+/about/member로 접속시 < About >과 < div >멤버< div/>을,  
+/about/location으로 접속시 < About >과 < div >회사위치< div/>을 보여줌
+
+다만 이렇게만 코드를 짜면 < div >가 보이지 않는데  
+이유는 < About > 안에 < div >를 어디에다가 보여줄 것인지 표기를 해주어야 함
+
+```js
+function About(){
+  return (
+    <div>
+      <h4>about페이지</h4>
+      <Outlet></Outlet>
+    </div>
+  )
+}
+```
+< Outlet >은 nested routes안의 element들을 어디에 보여줄지 표기하는 곳  
+서브경로로 접속시 < Outlet >자리에 해당되는 < div >가 잘 보임
