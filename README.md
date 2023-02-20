@@ -117,3 +117,66 @@ import { a, b } from "./data.js";
 export{ }로 내보냈으면 가져다가 쓸 때 import{ } from ./파일경로 를 씀
 
 - export { }로 내보냈다면 import { } 쓸 때 자유작명이 불가능함(export 했던 변수명 그대로 적어야됨)
+
+## 리액트 라우터
+페이지를 나누고 싶으면 일반 Html, CSS, JS 사이트는 Html 파일 여러개 만들면  
+각각 하나의 페이지이지만 리액트는 Html 파일을 하나만 사용함  
+
+그래서 리액트에서는 다른 페이지를 요청하면 내부에 있는 < div >를 변경하여 보여주게 됨  
+→ 직접 코드를 짜는 것보다는 react-router-dom 이라는 외부 라이브러리 설치해서 구현하는게 일반적
+
+### react-router-dom 설치
+
+```js
+npm install react-router-dom@6
+```
+터미널을 열어서 입력
+
+```js
+//index.js
+import { BrowserRouter } from "react-router-dom";
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+  </React.StrictMode>
+);
+```
+
+셋팅은 index.js 파일에서 import 해온 뒤 < BrowserRouter >으로 < App />을 감싸면 됨
+
+### 라우터 페이지 나누기
+
+```js
+//App.js
+import { Routes, Route, Link } from 'react-router-dom'
+
+function App() {
+  return (
+    <div className="App">
+      <Routes>
+         <Route path="/" element={<div>메인페이지</div>} />
+         <Route path="/detail" element={<div>상세페이지</div>} />
+      </Routes>
+  )
+}
+```
+1. 우선 상단에서 여러가지 컴포넌트를 import
+2. < Routes > 만들고 그 안에 < Route >를 작성
+3. < Route path="/url경로" element={ <보여줄html> } /> 작성
+
+Route는 페이지라고 생각하면 됨(페이지가 4개 필요하면 Route가 4개인 것)  
+경로에 /하나만 썼다면 메인페이지를 의미
+
+### 페이지 이동 버튼
+사용자들은 주소창에 url 입력해서 들어가지 않고 링크타고 들어감  
+
+```js
+<Link to="/">홈</Link>
+<Link to="/detail">상세페이지</Link>
+```
+react-router-dom에서 Link 컴포넌트 import 해오고 원하는 곳에서 < Link > 쓰면 됨  
+각각 url 경로로 이동하는 링크를 생성할 수 있음
