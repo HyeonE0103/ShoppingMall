@@ -239,3 +239,44 @@ function About(){
 ```
 < Outlet >은 nested routes안의 element들을 어디에 보여줄지 표기하는 곳  
 서브경로로 접속시 < Outlet >자리에 해당되는 < div >가 잘 보임
+
+## 여러개의 상세페이지 만들기
+
+```js
+<Route path="/detail/:id" element={ <Detail shoes={shoes}/> }/>
+```
+여러개의 상세페이지를 만들때 하나하나 Route를 쓸수도 있지만 간편하게 만들기 위해  
+페이지를 여러개 만들고 싶으면 URL 파라미터 문법을 사용 
+
+path 작명할 때 /:변수를 사용하면 "아무 문자"를 뜻함  
+그래서 위의 < Route >는 누군가 주소창에 /detail/아무문자 입력했을 때 < Detail > 컴포넌트 보여달라는 뜻  
+
+```js
+function Detail(props) {
+  let { id } = useParams();
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-md-6">
+          <img
+            src={
+              process.env.PUBLIC_URL + "/img/shoes" + (Number(id) + 1) + ".jpg"
+            }
+          />
+        </div>
+        <div className="col-md-6">
+          <h4 className="pt-5">{props.shoes[id].title}</h4>
+          <p>{props.shoes[id].content}</p>
+          <p>{props.shoes[id].price}</p>
+          <button className="btn btn-danger">주문하기</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+useParams() 라는 함수를 상단에서 import 해오면  
+현재 /:url파라미터 자리에 유저가 입력한 값을 가져와 사용할 수 있음  
+
+이런식으로 URL 파라미터를 이용하여 각기 다른 내용을 보여줄 수 있음  
+path 작명시 url 파라미터는 몇번이고 사용가능함(detail/:무언가1/:무언가2)
