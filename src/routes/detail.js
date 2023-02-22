@@ -1,4 +1,12 @@
+import styled from "styled-components";
 import { useParams } from "react-router-dom";
+
+let Btn = styled.button`
+  padding: 10px;
+  margin: 5px;
+  color: ${(props) => (props.bg == "black" ? "white" : "black")};
+  background: ${(props) => props.bg};
+`;
 
 function Detail(props) {
   let { id } = useParams();
@@ -21,7 +29,7 @@ function Detail(props) {
           <h4 className="pt-5">{sh.title}</h4>
           <p>{sh.content}</p>
           <p>{sh.price}</p>
-          <button className="btn btn-danger">주문하기</button>
+          <Btn bg="black">주문하기</Btn>
         </div>
       </div>
     </div>
