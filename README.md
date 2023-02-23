@@ -280,3 +280,87 @@ useParams() 라는 함수를 상단에서 import 해오면
 
 이런식으로 URL 파라미터를 이용하여 각기 다른 내용을 보여줄 수 있음  
 path 작명시 url 파라미터는 몇번이고 사용가능함(detail/:무언가1/:무언가2)
+
+## styled-components
+
+### 설치
+
+```js
+npm install styled-components
+```
+
+터미널을 켜서 입력하여 설치
+
+### styled-components 사용
+
+```js
+import styled from 'styled-components'
+```
+
+사용하고 싶은 파일 컴포넌트 상단에 import하여 사용
+
+```js
+import styled from 'styled-components';
+
+let YellowBtn = styled.button`
+  color : yellow;
+`;
+
+function Box(){
+  return (
+    <div>
+        <YellowBtn>버튼</YellowBtn>
+    </div>
+  )
+}
+```
+
+1. 태그를 만들고 싶으면 styled.태그명으로 사용하면 됨
+2. 오른쪽에 `` backtick 기호를 이용해서 CSS 스타일을 넣을 수 있음
+3. 그럼 그 자리에 컴포넌트를 남겨주는데 변수에 저장해서 쓰면 됨
+
+```js
+let YellowBtn = styled.button`
+  color : yellow;
+  padding : 10px;
+`;
+
+let NewBtn = styled.button(YellowBtn)`
+  color : blue;
+```
+
+기존 스타일 복사 가능  
+복사해 만든 스타일 커스터마이징 가능
+
+```js
+import styled from 'styled-components';
+
+let YellowBtn = styled.button`
+  background : ${ props => props.bg };
+`;
+
+function Detail(){
+  return (
+    <div>
+        <YellowBtn bg="orange">오렌지 버튼</YellowBtn>
+    </div>
+  )
+}
+```
+
+`${ props => props.변수명 }`을 사용해서 컴포넌트에 변수를 props로 입력가능
+
+### styled-components 장점
+
+- CSS 파일 오픈할 필요없이 JS 파일에서 바로 스타일을 넣을 수 있음
+- 한 파일에 적은 스타일이 다른 JS 파일로 오염되지 않음(CSS파일은 오염됨).
+- 페이지 로딩시간 단축됨(적은 스타일은 html 페이지의 <style>태그에 넣어주기 때문)
+
+### styled-components 단점
+
+- JS 파일이 매우 복잡해짐  
+  컴포넌트가 styled 인지 아니면 일반 컴포넌트인지 구분이 어려워짐
+- JS 파일 간 중복 디자인이 많이 필요한 경우  
+  다른 파일에서 스타일 넣은 것들 import 해와서 쓰면 되지만 CSS파일과의 차이가 없어짐
+- CSS 담당하는 디자이너가 있다면 협업시 불편  
+  디자이너가 styled-components 문법을 모른다면 디자이너가 CSS로 짠 걸 styled-components 문법으로 다시 바꾸는 작업 필요
