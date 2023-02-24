@@ -1,15 +1,29 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 let Btn = styled.button`
   padding: 10px;
-  margin: 5px;
+  margin: 10px;
   color: ${(props) => (props.bg == "black" ? "white" : "black")};
   background: ${(props) => props.bg};
 `;
 
+let Div = styled.div`
+  width: 250px;
+  height: 150px;
+  background: yellow;
+`;
+
 function Detail(props) {
   let { id } = useParams();
+  let [alert, setAlert] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAlert(false);
+    }, 2000);
+  }, []);
 
   const sh = props.shoes.find((x) => {
     return x.id == id;
@@ -17,6 +31,7 @@ function Detail(props) {
 
   return (
     <div className="container">
+      {alert == true ? <Div>2초이내 구매시 할인</Div> : null}
       <div className="row">
         <div className="col-md-6">
           <img
