@@ -20,9 +20,12 @@ function Detail(props) {
   let [alert, setAlert] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
+    let timer = setTimeout(() => {
       setAlert(false);
     }, 2000);
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   const sh = props.shoes.find((x) => {
@@ -45,6 +48,7 @@ function Detail(props) {
           <p>{sh.content}</p>
           <p>{sh.price}</p>
           <Btn bg="black">주문하기</Btn>
+          <input></input>
         </div>
       </div>
     </div>

@@ -66,15 +66,18 @@ function App() {
 }
 
 function Item(props) {
+  let link = "/detail/" + props.i;
   return (
     <div className="col-md-4">
-      <img
-        src={process.env.PUBLIC_URL + "/img/shoes" + (props.i + 1) + ".jpg"}
-        width="80%"
-      />
-      <h4>{props.shoes.title}</h4>
-      <p>{props.shoes.content}</p>
-      <p>{props.shoes.price}</p>
+      <Nav.Link href={link}>
+        <img
+          src={process.env.PUBLIC_URL + "/img/shoes" + (props.i + 1) + ".jpg"}
+          width="80%"
+        />
+        <h4>{props.shoes.title}</h4>
+        <p>{props.shoes.content}</p>
+        <p>{props.shoes.price}</p>
+      </Nav.Link>
     </div>
   );
 }
