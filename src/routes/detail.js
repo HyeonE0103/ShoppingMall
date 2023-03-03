@@ -17,16 +17,23 @@ let Div = styled.div`
 
 function Detail(props) {
   let { id } = useParams();
-  let [alert, setAlert] = useState(true);
+  let [notice, setNotice] = useState(true);
+  let [num, setNum] = useState("");
 
   useEffect(() => {
     let timer = setTimeout(() => {
-      setAlert(false);
+      setNotice(false);
     }, 2000);
     return () => {
       clearTimeout(timer);
     };
   }, []);
+
+  useEffect(() => {
+    if (isNaN(num) == true) {
+      alert("그러지마세요");
+    }
+  }, [num]);
 
   const sh = props.shoes.find((x) => {
     return x.id == id;
@@ -34,7 +41,7 @@ function Detail(props) {
 
   return (
     <div className="container">
-      {alert == true ? <Div>2초이내 구매시 할인</Div> : null}
+      {notice == true ? <Div>2초이내 구매시 할인</Div> : null}
       <div className="row">
         <div className="col-md-6">
           <img
@@ -48,7 +55,11 @@ function Detail(props) {
           <p>{sh.content}</p>
           <p>{sh.price}</p>
           <Btn bg="black">주문하기</Btn>
-          <input></input>
+          <input
+            onChange={(e) => {
+              setNum(e.target.value);
+            }}
+          />
         </div>
       </div>
     </div>
