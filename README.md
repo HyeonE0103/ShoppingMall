@@ -364,3 +364,72 @@ function Detail(){
   다른 파일에서 스타일 넣은 것들 import 해와서 쓰면 되지만 CSS파일과의 차이가 없어짐
 - CSS 담당하는 디자이너가 있다면 협업시 불편  
   디자이너가 styled-components 문법을 모른다면 디자이너가 CSS로 짠 걸 styled-components 문법으로 다시 바꾸는 작업 필요
+
+## Lifecycle과 useEffect
+  
+### Lifecyle
+  
+컴포넌트는 Lifecycle이라는 개념이 있음  
+1. 생성이 되고(mount)
+2. 재렌더링이 될수도 있고(update)
+3. 삭제가 될 수 있음(unmount)
+  
+### Lifecycle hook
+  
+이런 Lifecycle 개념을 이용하여 컴포넌트에 중간중간 간섭을 할 수 있음  
+주기에 갈고리에 코드를 달아주는 것으로 간섭할 수 있는 것  
+이것을 Lifecycle hook이라고 부름  
+  
+useEffect에서 import 해오고 콜백함수를 추가해서 안에 코드를 적으면 컴포넌트가 mount & update시 실행됨
+  
+```js
+import {useState, useEffect} from 'react';
+
+function Detail(){
+  useEffect(()=>{
+    console.log('안녕')
+  }); 
+  return (생략)
+}
+```
+
+### useEffect를 사용하는 이유
+
+useEffect를 사용하는 이유는 안에 적은 코드는 html 렌더링 이후에 동작하기 때문인데  
+이러한 점을 이용하여 Html 렌더링이 더 빠른 사이트를 원한다면 쓸데없는 것은 useEffect 안으로 넣는 것이 좋음
+
+### useEffect에 넣을 수 있는 실행조건
+
+```js
+useEffect(()=>{ 실행할코드 }, [변수])
+```
+useEffect()의 둘째 파라미터로 [ ] 를 넣을 수 있는데 변수나 state같은 것들을 넣을 수 있음  
+[ ]에 있는 변수나 state 가 변할 때만 useEffect 안의 코드를 실행해줌  
+위에 예시는 변수가 변할 때만 useEffect 안의 코드가 실행됨  
+아무것도 넣지 않는다면 컴포넌트 생성(mount)시 1회 실행하고 영영 실행해주지 않음  
+
+### clean up function
+
+구성 요소가 마운트 해제되기 전에 코드를 정리할 수 있는 Hook의 useEffect 기능  
+코드가 실행되고 모든 렌더링에 대해 다시 실행될 때 cleanup 함수를 사용하여 자체적으로 정리함  
+정리하는 이유는 개발자가 원하지 않는 동작을 방지하고 애플리게이션 성능을 최적화하는 효과를 주기 때문  
+
+```js
+useEffect(()=>{
+  효과
+  return ()=>{
+    정리
+  }
+}, [입력])
+```
+useEffect 동작하기 전에 특정코드를 실행하고 싶으면 return ()=>{ } 안에 넣을 수 있음  
+
+```js
+useEffect(()=>{ 
+  그 다음 실행됨 
+  return ()=>{
+    먼저 실행됨
+  }
+}, [])
+```
+그럼 useEffect 안에 있는 코드를 실행하기 전에 return ()=>{ } 안에 있는 코드를 실행해줌  
