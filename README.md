@@ -433,3 +433,44 @@ useEffect(()=>{
 }, [])
 ```
 그럼 useEffect 안에 있는 코드를 실행하기 전에 return ()=>{ } 안에 있는 코드를 실행해줌  
+
+## 서버와 통신
+
+### AJAX
+
+AJAX는 서버에 GET, POST 요청을 할 때 새로고침 없이 데이터를 주고받을 수 있게 도와주는 브라우저 기능
+
+### AJAX로 GET/POST 요청하는 법
+
+- XMLHttpRequest라는 옛날 문법 사용
+- fetch() 라는 최신 문법 사용
+- axios 같은 외부 라이브러리 사용
+
+### axios를 이용하여 GET 요청
+
+터미널을 열어서
+
+```js
+npm install axios
+```
+을 입력하고 설치
+
+```js
+axios
+  .get(URL)
+  .then((변수) => {
+	코드
+  })
+  .catch(() => {
+    실패했을때 실행할 코드
+  });
+```
+
+1. axios를 쓰려면 상단에 import
+2. axios.get(URL)으로 자신이 원하는 URL로 GET요청
+3. 데이터 가져온 결과는 변수.data 안에 들어가있음  
+  - GET 요청의 결과는 변수에 들어가 있음  
+  - 데이터만 사용하고 싶으면 변수.data  
+  
+4. 인요청에 실패했을 때 실행할 코드는 .catch() 안에 적기
+
