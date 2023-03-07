@@ -46,8 +46,12 @@ function Detail(props) {
         <div className="col-md-6">
           <img
             src={
-              process.env.PUBLIC_URL + "/img/shoes" + (Number(id) + 1) + ".jpg"
+              process.env.PUBLIC_URL +
+              "https://codingapple1.github.io/shop/shoes" +
+              (Number(id) + 1) +
+              ".jpg"
             }
+            width="80%"
           />
         </div>
         <div className="col-md-6">
