@@ -6,10 +6,11 @@ import { Link, Route, Routes, useNavigate, Outlet } from "react-router-dom";
 import "./App.css";
 import data from "./data";
 import Detail from "./routes/detail";
+import axios from "axios";
 
 function App() {
   let navigate = useNavigate();
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
 
   return (
     <div className="App">
@@ -43,6 +44,22 @@ function App() {
                   })}
                 </div>
               </div>
+              <button
+                onClick={() => {
+                  axios
+                    .get("https://codingapple1.github.io/shop/data2.json")
+                    .then((결과) => {
+                      let copy = [...shoes, ...결과.data];
+                      setShoes(copy);
+                      console.log(copy);
+                    })
+                    .catch(() => {
+                      console.log("실패함");
+                    });
+                }}
+              >
+                버튼
+              </button>
             </>
           }
         />
@@ -71,7 +88,12 @@ function Item(props) {
     <div className="col-md-4">
       <Nav.Link href={link}>
         <img
-          src={process.env.PUBLIC_URL + "/img/shoes" + (props.i + 1) + ".jpg"}
+          src={
+            process.env.PUBLIC_URL +
+            "https://codingapple1.github.io/shop/shoes" +
+            (props.i + 1) +
+            ".jpg"
+          }
           width="80%"
         />
         <h4>{props.shoes.title}</h4>
