@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Nav } from "react-bootstrap";
 
 let Btn = styled.button`
   padding: 10px;
@@ -10,15 +11,19 @@ let Btn = styled.button`
 `;
 
 let Div = styled.div`
-  width: 250px;
-  height: 150px;
-  background: yellow;
+  height: 60px;
+  background: #f5f6ce;
+  font-size: 18px;
+  margin: 15px;
+  text-align: center;
+  line-height: 60px;
 `;
 
 function Detail(props) {
   let { id } = useParams();
   let [notice, setNotice] = useState(true);
   let [num, setNum] = useState("");
+  let [tab, setTab] = useState(0);
 
   useEffect(() => {
     let timer = setTimeout(() => {
@@ -66,7 +71,45 @@ function Detail(props) {
           />
         </div>
       </div>
+
+      <Nav variant="tabs" defaultActiveKey="link0">
+        <Nav.Item>
+          <Nav.Link
+            eventKey="link0"
+            onClick={() => {
+              setTab(0);
+            }}
+          >
+            버튼0
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link
+            eventKey="link1"
+            onClick={() => {
+              setTab(1);
+            }}
+          >
+            버튼1
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link
+            eventKey="link2"
+            onClick={() => {
+              setTab(2);
+            }}
+          >
+            버튼2
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <TabContent tab={tab} />
     </div>
   );
+}
+
+function TabContent({ tab }) {
+  return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab];
 }
 export default Detail;
