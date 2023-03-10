@@ -498,3 +498,17 @@ axios.post('URL', 데이터)
 1. Html, CSS로 탭 디자인 미리 완성
 2. UI의 현재 상태를 저장할 state 하나 만들기
 3. state에 따라서 UI가 어떻게 보일지 작성
+
+## 컴포넌트 애니메이션
+
+1. 애니메이션 동작 전 스타일을 담을 className 만들기
+2. 애니메이션 동작 후 스타일을 담을 className 만들기
+3. transition 속성도 추가
+4. 원할 때 동작 후 스타일을 담을 className 탈부착
+
+#### automatic batching
+React 18부터 automatic batching라는 기능이 생겼음  
+Batching이란 React가 나은 성능을 위해 여러개의 state 업데이트를 한번의 리렌더링으로 묶어서 진행하는 것을 말함  
+Batching으로 작업 렌더링을 최소화하여, 애플리케이션의 성능향상을 기대할수 있지만  
+위에 애니메이션처럼 속성 탈부착에 시간차가 필요하다고 생각하는 등에  
+Batching을 원치 않을경우에는 FlushSync을 사용하거나 자신의 코드에 맞게 setTimeout을 이용하면 됨  
