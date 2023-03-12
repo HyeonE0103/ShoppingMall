@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Nav } from "react-bootstrap";
+
+import { Context1 } from "./../App.js";
 
 let Btn = styled.button`
   padding: 10px;
@@ -20,6 +22,8 @@ let Div = styled.div`
 `;
 
 function Detail(props) {
+  let { 재고 } = useContext(Context1);
+
   let { id } = useParams();
   let [notice, setNotice] = useState(true);
   let [num, setNum] = useState("");
@@ -121,6 +125,7 @@ function Detail(props) {
 
 function TabContent({ tab }) {
   let [fade, setFade] = useState("");
+  let { 재고 } = useContext(Context1);
 
   useEffect(() => {
     setTimeout(() => {
@@ -133,7 +138,7 @@ function TabContent({ tab }) {
 
   return (
     <div className={"start " + fade}>
-      {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]}
+      {[<div>{재고}</div>, <div>내용1</div>, <div>내용2</div>][tab]}
     </div>
   );
 }

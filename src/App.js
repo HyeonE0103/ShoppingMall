@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { useState } from "react";
+import React, { createContext, useState } from "react";
 import { Link, Route, Routes, useNavigate, Outlet } from "react-router-dom";
 
 import "./App.css";
@@ -8,11 +8,14 @@ import data from "./data";
 import Detail from "./routes/detail";
 import axios from "axios";
 
+export let Context1 = createContext();
+
 function App() {
   let navigate = useNavigate();
   let [shoes, setShoes] = useState(data);
   let [num, setNum] = useState(2);
   let [wait, setWait] = useState("");
+  let [재고] = useState([10, 11, 12]);
 
   return (
     <div className="App">
@@ -72,7 +75,14 @@ function App() {
             </>
           }
         />
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        <Route
+          path="/detail/:id"
+          element={
+            <Context1.Provider value={{ 재고 }}>
+              <Detail shoes={shoes} />
+            </Context1.Provider>
+          }
+        />
         <Route
           path="/event"
           element={
