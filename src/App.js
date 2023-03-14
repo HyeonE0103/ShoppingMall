@@ -6,6 +6,8 @@ import { Link, Route, Routes, useNavigate, Outlet } from "react-router-dom";
 import "./App.css";
 import data from "./data";
 import Detail from "./routes/detail";
+import Cart from "./routes/cart";
+
 import axios from "axios";
 
 export let Context1 = createContext();
@@ -32,6 +34,7 @@ function App() {
               Detail
             </Nav.Link>
             <Nav.Link href="/event">Event</Nav.Link>
+            <Nav.Link href="/cart">Cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -83,6 +86,7 @@ function App() {
             </Context1.Provider>
           }
         />
+        <Route path="/cart" element={<Cart />} />
         <Route
           path="/event"
           element={
