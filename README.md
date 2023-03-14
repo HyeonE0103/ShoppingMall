@@ -512,3 +512,54 @@ Batching이란 React가 나은 성능을 위해 여러개의 state 업데이트�
 Batching으로 작업 렌더링을 최소화하여, 애플리케이션의 성능향상을 기대할수 있지만  
 위에 애니메이션처럼 속성 탈부착에 시간차가 필요하다고 생각하는 등에  
 Batching을 원치 않을경우에는 FlushSync을 사용하거나 자신의 코드에 맞게 setTimeout을 이용하면 됨  
+
+## Redux
+Redux는 props 없이 state를 공유할 수 있게 도와주는 라이브러리  
+js 파일 하나에 state들을 보관할 수 있는데 state들을 모든 컴포넌트가 직접 꺼내쓸 수 있음  
+props 전송이 필요없어짐
+
+### Redux 설치
+
+터미널에  
+```js
+npm install @reduxjs/toolkit react-redux
+```
+을 입력하여 설치(react, react-dom 18.1.x 이상이어야 함)
+
+### Redux 셋팅
+
+#### 1. store.js 파일을 만들어서 지정된 코드 작성
+
+```js
+import { configureStore } from '@reduxjs/toolkit'
+
+export default configureStore({
+  reducer: { }
+})
+``` 
+store.js 파일을 만들어서 위예 코드를 작성함  
+store.js 파일은 state들을 보관하는 파일  
+
+ 
+#### 2. index.js 파일에서 Provider 라는 컴포넌트와 아까 작성한 파일을 import 해온 후 감싸줌
+
+```js
+import { Provider } from "react-redux";
+import store from './store.js'
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
+);
+```
+
+index.js 파일에서 Provider 라는 컴포넌트와 아까 작성한 파일을 import 해옴  
+그리고 < Provider store={store}>로 < App/> 을 감싸면 됨  
+store={store}로 하였는데 import로 받아온것을 store이라는 변수에 넣었기 때문  
+→ 다른것으로 했다면 다른것을 넣으면 됨 store={import로 해온것 받아온 변수}  
+
+그럼 이제 < App>과 그 모든 자식컴포넌트들은 store.js에 있던 state를 맘대로 꺼내쓸 수 있음
