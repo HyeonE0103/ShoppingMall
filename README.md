@@ -563,3 +563,49 @@ store={store}로 하였는데 import로 받아온것을 store이라는 변수에
 → 다른것으로 했다면 다른것을 넣으면 됨 store={import로 해온것 받아온 변수}  
 
 그럼 이제 < App>과 그 모든 자식컴포넌트들은 store.js에 있던 state를 맘대로 꺼내쓸 수 있음
+
+### Redux store에 state 보관하는 법 
+```js
+import { configureStore, createSlice } from '@reduxjs/toolkit'
+
+let user = createSlice({
+  name : 'user',
+  initialState : 'Lee'
+})
+
+let item = createSlice({
+  name : 'item',
+  initialState : ['A', 'B', 'C']
+})
+
+
+export default configureStore({
+  reducer: {
+    user : user.reducer,
+    item : item.reducer,
+  }
+})
+```
+#### 1. createSlice( ) 로 state 만들기  
+createSlice( )를 상단에서 import 해온 다음에  
+{ name : 'state이름', initialState : 'state값' }으로 state 하나 생성  
+
+#### 2. configureStore( ) 안에 등록  
+configureStore( )를 상단에서 import 해온 다음에  
+{ 작명 : createSlice만든state.reducer }로 configureStore안에 등록  
+
+### Redux store에 있던 state 사용
+
+```js
+import { useSelector } from "react-redux"
+
+function Cart(){
+  let a = useSelector((state) => { return state } )
+}
+```
+컴포넌트에서 useSelector((state) => { return state } ) 쓰면 store에 있던 모든 state가 그 자리에 남음  
+
+```js
+let a = useSelector((state) => state.user )
+```
+원하는 state만 가져다 사용가능
