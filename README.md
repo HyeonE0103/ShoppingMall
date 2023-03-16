@@ -609,3 +609,45 @@ function Cart(){
 let a = useSelector((state) => state.user )
 ```
 원하는 state만 가져다 사용가능
+
+### Redux store의 state변경
+Redux의 state변경은 state의 수정해주는 함수를 만들고 원할 때 그 함수 실행해달라고 요청하는 방식  
+
+#### 1. store.js에 state변경해주는 함수 만들기
+
+```js
+let user = createSlice({
+  name : 'user',
+  initialState : 'Lee',
+  reducers : {
+    changeName(state){
+      return 'john ' + state
+    }
+  }
+  ```
+store.js slice 안에 reducers : { } 열고 거기 안에 함수 만들면 됨  
+- 함수 작명은 원하는대로
+- 파라미터 하나 작명하면 그것은 기존 state가 됨
+- return 우측에 새로운 state 입력하면 그것으로 기존 state를 변경해줌
+
+#### 2. export 하기
+
+```js
+export let { 함수1, 함수2, ... } = user.actions
+```
+store.js에 slice이름.actions 라고 적으면 state 변경함수가 전부 그 자리에 출력됨  
+오른쪽에 있는 자료를 변수에 저장했다가 export 하라는 뜻  
+
+#### 3.필요할 때 import 하여 dispatch() 로 감싸서 사용
+
+```js
+import { useDispatch, useSelector } from "react-redux"
+import { changeName } from "./../store.js"
+
+<button onClick={()=>{
+  dispatch(changeName())
+}}>+</button>
+```
+store.js에서 원하는 state변경함수 import해서 가져옴  
+useDispatch를 라이브러리에서 import로 가져옴  
+dispatch( state변경함수() )로 state변경함수()를 dispatch()에 감싸서 실행  

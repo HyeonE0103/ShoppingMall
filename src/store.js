@@ -10,7 +10,7 @@ let user = createSlice({
   },
 });
 
-export let {changeName} = user.actions
+export let { changeName } = user.actions;
 
 let stock = createSlice({
   name: "stock",
