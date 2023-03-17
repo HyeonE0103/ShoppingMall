@@ -1,9 +1,11 @@
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { Nav } from "react-bootstrap";
+import { order } from "./../store/stockSlice";
 
 import { Context1 } from "./../App.js";
+import { useDispatch } from "react-redux";
 
 let Btn = styled.button`
   padding: 10px;
@@ -23,6 +25,8 @@ let Div = styled.div`
 
 function Detail(props) {
   let { 재고 } = useContext(Context1);
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
 
   let { id } = useParams();
   let [notice, setNotice] = useState(true);
@@ -77,7 +81,22 @@ function Detail(props) {
           <h4 className="pt-5">{sh.title}</h4>
           <p>{sh.content}</p>
           <p>{sh.price}</p>
-          <Btn bg="black">주문하기</Btn>
+          <Btn
+            bg="black"
+            onClick={() => {
+              dispatch(order(sh));
+            }}
+          >
+            주문하기
+          </Btn>
+          <Btn
+            bg="black"
+            onClick={() => {
+              navigate("/cart");
+            }}
+          >
+            장바구니로 이동
+          </Btn>
           <input
             onChange={(e) => {
               setNum(e.target.value);
