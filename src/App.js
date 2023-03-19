@@ -13,8 +13,11 @@ import axios from "axios";
 export let Context1 = createContext();
 
 function App() {
+  //localStorage.removeItem("watched");
   useEffect(() => {
-    localStorage.setItem("watched", JSON.stringify([]));
+    if (!localStorage.getItem("watched")) {
+      localStorage.setItem("watched", JSON.stringify([]));
+    }
   }, []);
 
   let navigate = useNavigate();

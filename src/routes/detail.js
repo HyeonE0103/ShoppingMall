@@ -24,7 +24,6 @@ let Div = styled.div`
 `;
 
 function Detail(props) {
-
   let { 재고 } = useContext(Context1);
   let navigate = useNavigate();
   let dispatch = useDispatch();
@@ -38,6 +37,16 @@ function Detail(props) {
   const sh = props.shoes.find((x) => {
     return x.id == id;
   });
+
+  useEffect(() => {
+    let obj = localStorage.getItem("watched");
+    obj = JSON.parse(obj);
+    obj.push(sh.id);
+
+    obj = new Set(obj);
+    obj = Array.from(obj);
+    localStorage.setItem("watched", JSON.stringify(obj));
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
