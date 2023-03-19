@@ -650,4 +650,36 @@ import { changeName } from "./../store.js"
 ```
 store.js에서 원하는 state변경함수 import해서 가져옴  
 useDispatch를 라이브러리에서 import로 가져옴  
-dispatch( state변경함수() )로 state변경함수()를 dispatch()에 감싸서 실행  
+dispatch( state변경함수() )로 state변경함수()를 dispatch()에 감싸서 실행
+
+## localStoage
+새로고침을 하면 브라우저는 Html, CSS, JS 파일들을 처음부터 다시 읽기 때문에 모든 state 데이터는 리셋됨  
+서버나 DB 지식이 없다면 localStorage를 이용해도 됨  
+Local Storage는 브라우저를 청소하지 않는 이상 반영구적으로 Session Storage는 브라우저를 끄면 삭제됨  
+
+
+### localStorage문법
+```js
+localStorage.setItem('데이터이름', '데이터');
+localStorage.getItem('데이터이름');
+localStorage.removeItem('데이터이름')
+```
+- setItem(추가)
+- getItem(읽기)
+- removeItem (삭제)
+
+seesionStorage를 이용하기 원할경우 localStorage를 seesionStorage변경하여 입력  
+
+#### localStorage에 array/object 자료 저장
+```js
+localStorage.setItem('obj', JSON.stringify({name:'Lee'}) );
+```
+localStorage는 문자만 저장할 수 있는 공간이라 array/object를 저장할 수는 없음  
+그래서 문자취급을 받는 JSON을 이용해 localStorage에 저장  
+array/object를 JSON으로 변환하고 싶으면 JSON.stringify()  
+
+```js
+let a = localStorage.getItem('obj');
+let b = JSON.parse(a)
+```
+데이터를 읽어오면 JSON이 나오기때문에 원래 array/object로 변환하고 싶으면 JSON.parse()

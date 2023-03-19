@@ -39,13 +39,13 @@ function Detail(props) {
   });
 
   useEffect(() => {
-    let obj = localStorage.getItem("watched");
+    let obj = sessionStorage.getItem("watched");
     obj = JSON.parse(obj);
     obj.push(sh.id);
 
     obj = new Set(obj);
     obj = Array.from(obj);
-    localStorage.setItem("watched", JSON.stringify(obj));
+    sessionStorage.setItem("watched", JSON.stringify(obj));
   }, []);
 
   useEffect(() => {

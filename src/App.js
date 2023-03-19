@@ -13,10 +13,9 @@ import axios from "axios";
 export let Context1 = createContext();
 
 function App() {
-  //localStorage.removeItem("watched");
   useEffect(() => {
-    if (!localStorage.getItem("watched")) {
-      localStorage.setItem("watched", JSON.stringify([]));
+    if (!sessionStorage.getItem("watched")) {
+      sessionStorage.setItem("watched", JSON.stringify([]));
     }
   }, []);
 
