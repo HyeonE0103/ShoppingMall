@@ -24,6 +24,7 @@ let Div = styled.div`
 `;
 
 function Detail(props) {
+
   let { 재고 } = useContext(Context1);
   let navigate = useNavigate();
   let dispatch = useDispatch();
@@ -33,6 +34,10 @@ function Detail(props) {
   let [num, setNum] = useState("");
   let [tab, setTab] = useState(0);
   let [fade, setFade] = useState("");
+
+  const sh = props.shoes.find((x) => {
+    return x.id == id;
+  });
 
   useEffect(() => {
     setTimeout(() => {
@@ -57,10 +62,6 @@ function Detail(props) {
       alert("그러지마세요");
     }
   }, [num]);
-
-  const sh = props.shoes.find((x) => {
-    return x.id == id;
-  });
 
   return (
     <div className={"container start " + fade}>

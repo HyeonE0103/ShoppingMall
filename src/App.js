@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { Link, Route, Routes, useNavigate, Outlet } from "react-router-dom";
 
 import "./App.css";
@@ -13,6 +13,10 @@ import axios from "axios";
 export let Context1 = createContext();
 
 function App() {
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify([]));
+  }, []);
+
   let navigate = useNavigate();
   let [shoes, setShoes] = useState(data);
   let [num, setNum] = useState(2);
