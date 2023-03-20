@@ -9,6 +9,7 @@ import Detail from "./routes/detail";
 import Cart from "./routes/cart";
 
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 export let Context1 = createContext();
 
@@ -24,6 +25,16 @@ function App() {
   let [num, setNum] = useState(2);
   let [wait, setWait] = useState("");
   let [재고] = useState([10, 11, 12]);
+
+  let result = useQuery(
+    ["작명"],
+    () =>
+      axios.get("https://codingapple1.github.io/userdata.json").then((a) => {
+        console.log("요청됨");
+        return a.data;
+      }),
+    { staleTime: 2000 }
+  );
 
   return (
     <div className="App">
@@ -41,6 +52,11 @@ function App() {
             </Nav.Link>
             <Nav.Link href="/event">Event</Nav.Link>
             <Nav.Link href="/cart">Cart</Nav.Link>
+          </Nav>
+          <Nav className="ms-auto">
+            {result.isLoading && "로딩중"}
+            {result.error && "에러"}
+            {result.data && result.data.name}
           </Nav>
         </Container>
       </Navbar>
