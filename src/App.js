@@ -1,15 +1,22 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import React, { createContext, useEffect, useState } from "react";
-import { Link, Route, Routes, useNavigate, Outlet } from "react-router-dom";
+import React, {
+  createContext,
+  lazy,
+  Suspense,
+  useEffect,
+  useState,
+} from "react";
+import { Route, Routes, useNavigate, Outlet } from "react-router-dom";
 
 import "./App.css";
 import data from "./data";
-import Detail from "./routes/detail";
-import Cart from "./routes/cart";
 
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+
+const Detail = lazy(() => import("./routes/detail.js"));
+const Cart = lazy(() => import("./routes/cart.js"));
 
 export let Context1 = createContext();
 
@@ -60,69 +67,71 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <div className="main-bg"></div>
-              <div className="container">
-                <div className="row">
-                  {shoes.map(function (a, i) {
-                    return <Item shoes={shoes[i]} i={i} key={i} />;
-                  })}
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="main-bg"></div>
+                <div className="container">
+                  <div className="row">
+                    {shoes.map(function (a, i) {
+                      return <Item shoes={shoes[i]} i={i} key={i} />;
+                    })}
+                  </div>
                 </div>
-              </div>
-              {num <= 3 && (
-                <button
-                  onClick={() => {
-                    setWait("로딩중");
-                    axios
-                      .get(
-                        `https://codingapple1.github.io/shop/data${num}.json`
-                      )
-                      .then((결과) => {
-                        let copy = [...shoes, ...결과.data];
-                        setShoes(copy);
-                      })
-                      .catch(() => {
-                        console.log("실패함");
-                      });
-                    setNum(num + 1);
-                    console.log(num);
-                    setWait("");
-                  }}
-                >
-                  버튼
-                </button>
-              )}
-              {wait}
-            </>
-          }
-        />
-        <Route
-          path="/detail/:id"
-          element={
-            <Context1.Provider value={{ 재고 }}>
-              <Detail shoes={shoes} />
-            </Context1.Provider>
-          }
-        />
-        <Route path="/cart" element={<Cart />} />
-        <Route
-          path="/event"
-          element={
-            <>
-              <h1>오늘의 이벤트</h1>
-              <Outlet></Outlet>
-            </>
-          }
-        >
-          <Route path="one" element={<h3>첫 주문시 양배추즙 서비스</h3>} />
-          <Route path="two" element={<h3>생일기념 쿠폰받기</h3>} />
-        </Route>
-        <Route path="*" element={<div>없는페이지 404</div>} />
-      </Routes>
+                {num <= 3 && (
+                  <button
+                    onClick={() => {
+                      setWait("로딩중");
+                      axios
+                        .get(
+                          `https://codingapple1.github.io/shop/data${num}.json`
+                        )
+                        .then((결과) => {
+                          let copy = [...shoes, ...결과.data];
+                          setShoes(copy);
+                        })
+                        .catch(() => {
+                          console.log("실패함");
+                        });
+                      setNum(num + 1);
+                      console.log(num);
+                      setWait("");
+                    }}
+                  >
+                    버튼
+                  </button>
+                )}
+                {wait}
+              </>
+            }
+          />
+          <Route
+            path="/detail/:id"
+            element={
+              <Context1.Provider value={{ 재고 }}>
+                <Detail shoes={shoes} />
+              </Context1.Provider>
+            }
+          />
+          <Route path="/cart" element={<Cart />} />
+          <Route
+            path="/event"
+            element={
+              <>
+                <h1>오늘의 이벤트</h1>
+                <Outlet></Outlet>
+              </>
+            }
+          >
+            <Route path="one" element={<h3>첫 주문시 양배추즙 서비스</h3>} />
+            <Route path="two" element={<h3>생일기념 쿠폰받기</h3>} />
+          </Route>
+          <Route path="*" element={<div>없는페이지 404</div>} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }
