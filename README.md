@@ -683,3 +683,40 @@ let a = localStorage.getItem('obj');
 let b = JSON.parse(a)
 ```
 데이터를 읽어오면 JSON이 나오기때문에 원래 array/object로 변환하고 싶으면 JSON.parse()
+
+## React.lazy()와 Suspanse
+리액트 코드를 완성하면 npm run build 입력해서 코드들을 Html, CSS, JS파일로 변환해야함  
+리액트로 만드는 Single Page Application의 특징은 Html, JS파일이 하나만 생성됨  
+그래서 리액트 사이트들은 첫 페이지 로딩속도가 매우 느릴 수 있음  
+이런경우 JS파일을 잘게 쪼개면 로딩속도를 향상 시킬 수 있음  
+
+```js
+import {lazy, Suspense, useEffect, useState} from 'react'
+
+const Detail = lazy( () => import('./routes/Detail.js') )
+const Cart = lazy( () => import('./routes/Cart.js') )
+```
+lazy를 import해오라고 바꾸면 lazy문법으로 해놓은 컴포넌트들은 컴포넌트가 필요해질때 import해오라는 뜻이 되어  
+컴포넌트 내용을 다른 JS파일로 쪼개줌으로 첫 페이지 로딩속도를 향상시킬 수 있음  
+
+```js
+<Suspense fallback={ <div>Loading...</div> }>
+  <Detail shoes={shoes} />
+</Suspense>
+```
+lazy 사용하면 컴포넌트 로드까지 지연시간이 발생할 수 있음  
+Suspanse를 import 해온뒤 컴포넌트를 감싸면 컴포넌트가 로딩중일 때 대신하여 보여줄  Html 작성도 가능함  
+Suspanse 컴포넌트는 lazy컴포넌트를 감싸는데 하나의 Suspanse컴포넌트로 여러 lazy를 감쌀 수 있음  
+lazy컴포넌트는 Suspanse컴포넌트 하위에서 렌더링되어야 함  
+
+```js
+return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="/" element=<About/>} />
+      </Routes>
+    </Suspense>
+);
+```
+React 공식문서에 따르면, Router 바로 아래에 Suspanse를 위치시키고 Route로 보여줄 컴포넌트들을 React.lazy로 불러오는 것을 권장함
+
