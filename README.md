@@ -720,3 +720,60 @@ return (
 ```
 React 공식문서에 따르면, Router 바로 아래에 Suspanse를 위치시키고 Route로 보여줄 컴포넌트들을 React.lazy로 불러오는 것을 권장함
 
+## memo와 useMemo
+
+### memo
+컴포넌트가 재렌더링되면 안에 있는 자식컴포넌트는 항상 함께 재렌더링됨  
+이런경우 자식컴포넌트가 무겁다면 부모컴포넌트가 재렌더링될 시 렌더링시간이 긴 문제가 될 수 있음  
+
+#### memo 사용
+
+```js
+import {memo, useState} from 'react'
+
+let Child = memo( function(){
+  console.log('재렌더링됨')
+  return <div>Child</div>
+})
+
+function Cart(){ 
+  let [count, setCount] = useState(0)
+  return (
+    <Child />
+    <button onClick={()=>{ setCount(count+1) }}> + </button>
+  )
+}
+```
+1. 상단에 memo를 import
+2. 원하는 컴포넌트 정의부분을 감싸기  
+
+컴포넌트를 감쌀때는 let 컴포넌트명 memo(function(){}) 식으로 만들어서 memo 감싸기  
+
+memo는 헛된 재렌더링을 안시키기 위해 기존 props와 바뀐 props를 비교하는 연산이 추가로 진행됨  
+props가 크고 복잡할 경우 부담이 될 수도 있기에 꼭 필요한 곳에만 사용  
+
+#### useMemo
+
+```js
+import {useMemo, useState} from 'react'
+
+function 함수(){
+  return 결과
+}
+function Cart(){ 
+  let result = useMemo(()=>{ return 함수() }, [])
+  return (
+	<div></div>
+  )
+}
+```
+useMemo는 처음에 계산된 결과값을 메모리에 저장해서 컴포넌트가 반복적으로 렌더링 되어도 계속 함수를 다시 호출하지 않고  
+이전에 이미 계산된 결과 값을 메모리에서 꺼내와서 재사용할 수 있게 해줌  
+그렇기에 재렌더링마다 동작을 안하기 때문에 효율적으로 동작함  
+
+useMemo는 첫번째 인자로 콜백 함수를, 두번째 인자로 의존성 배열을 받음  
+두번째 인자인배열의 요소 값이 업데이트될 때만 콜백 함수를 다시 호출해서 memoization된 값을 업데이트 해주어 다시 memoization을 해줌  
+빈 배열([ ])을 넘겨주면 맨 처음 컴포넌트가 마운트 되었을 때만 값을 계산하고 이후에는 항상 memoization된 값을 꺼내와서 사용  
+
+useMemo는 값을 재활용하기 위해 따로 메모리를 소비해서 저장을 해놓음  
+그렇기에 불필요한 값을 모두 memoization해버릴 경우 성능이 않좋아 질수 있기 때문에 필요할때만 사용
