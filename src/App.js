@@ -4,8 +4,10 @@ import React, {
   createContext,
   lazy,
   Suspense,
+  useDeferredValue,
   useEffect,
   useState,
+  useTransition,
 } from "react";
 import { Route, Routes, useNavigate, Outlet } from "react-router-dom";
 
@@ -20,6 +22,9 @@ const Cart = lazy(() => import("./routes/cart.js"));
 
 export let Context1 = createContext();
 
+// let a = new Array(10000).fill(0);
+let a = new Array(2).fill(0);
+
 function App() {
   useEffect(() => {
     if (!sessionStorage.getItem("watched")) {
@@ -32,6 +37,10 @@ function App() {
   let [num, setNum] = useState(2);
   let [wait, setWait] = useState("");
   let [재고] = useState([10, 11, 12]);
+
+  let [name, setName] = useState("");
+  let [isPending, startTransition] = useTransition();
+  let state = useDeferredValue(name);
 
   let result = useQuery(
     ["작명"],
@@ -132,6 +141,30 @@ function App() {
           <Route path="*" element={<div>없는페이지 404</div>} />
         </Routes>
       </Suspense>
+      <div>
+        <input
+          onChange={(e) => {
+            startTransition(() => {
+              setName(e.target.value);
+            });
+          }}
+        />
+        {isPending
+          ? "로딩중이니기다리셈"
+          : a.map(() => {
+              return <div>{name}</div>;
+            })}
+      </div>
+      {/* <div>
+        <input
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+        />
+        {a.map(() => {
+          return <div>{state}</div>;
+        })}
+      </div> */}
     </div>
   );
 }
