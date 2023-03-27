@@ -777,3 +777,67 @@ useMemo는 첫번째 인자로 콜백 함수를, 두번째 인자로 의존성 �
 
 useMemo는 값을 재활용하기 위해 따로 메모리를 소비해서 저장을 해놓음  
 그렇기에 불필요한 값을 모두 memoization해버릴 경우 성능이 않좋아 질수 있기 때문에 필요할때만 사용
+
+## useTransition과 useDeferredValue
+
+렌더링 시간이 오래 걸리는 컴포넌트가 있는데 특정반응(타이핑, 클릭 등)에 렌더링해야한다면 특정반응속도가 느려짐  
+이럴경우 컴포넌트에 Html 갯수를 줄이면 대부분 해결되지만 안된다면 반응속도를 올리는 다른 방법을 생각해야함  
+
+### useTransition
+ ```js
+import {useState, useTransition} from 'react'
+let a = new Array(100).fill(0)
+function App(){
+  let [name, setName] = useState('')
+  let [isPending, startTransition] = useTransition()
+  return (
+    <div>
+      <input onChange={ (e)=>{ 
+        startTransition(()=>{
+          setName(e.target.value) 
+        })
+      }}/>
+      {
+        a.map(()=>{
+          return <div>{name}</div>
+        })
+      }
+    </div>
+  )
+}
+ ```
+useTransition() 쓰면 그 자리에 [변수, 함수]가 남음  
+그 중 우측에 있는 startTransition() 함수로 state변경함수 같은걸 묶으면 그것을 다른 코드들보다 나중에 처리해줌  
+그렇기에 특정반응에 반응속도가 훨씬 나아짐  
+이것을 이용해 타이핑 같이 즉각적으로 반응해야하는것을 우선적으로 처리해줄 수 있음  
+성능개선보다는 특정코드의 실행시점을 뒤로 옮겨주는 것이기 때문에 Html이 많다면 여러페이지로 쪼개는 것이 좋음  
+
+### useDeferredValue
+startTransition()과 용도가 같음  
+다만 useDeferredValue는 state 아니면 변수하나를 집어넣을 수 있게 되어있음  
+매개변수가 변동사항이 생길시 그것을 늦게 처리해줌  
+
+ ```js
+import {useState, useDeferredValue} from 'react'
+let a = new Array(100).fill(0)
+function App(){
+  let [name, setName] = useState('')
+  let state = useDeferredValue(name)
+  return (
+    <div>
+      <input onChange={ (e)=>{ 
+          setName(e.target.value) 
+      }}/>
+
+      {
+        a.map(()=>{
+          return <div>{state}</div>
+        })
+      }
+    </div>
+  )
+}
+```
+위에 flushsync()의 예시와 같은 결과를 나타냄  
+useDeferredValue 안에 state를 넣으면 state가 변동사항이 생겼을 때 나중에 처리해주고  
+처리결과는 변수(여기서는 state)에 저장해줌
